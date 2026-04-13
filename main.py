@@ -26,17 +26,15 @@ try:
 except Exception as e:
     print(f"API Connection Issue: {e}")
 
-# === 3. HYPOTHESIS TESTING ===
-# Moving this BEFORE the graph ensures the output prints immediately
+# Hypothesis Testing
 print("\n--- Starting Hypothesis Testing ---")
 
 top_10_openings = df['opening_name'].value_counts().nlargest(10).index
 df_top_10 = df[df['opening_name'].isin(top_10_openings)]
 
-# A 2D crosstab is required for the Chi-Square test 
+# Chi-Square Test 
 contingency_table = pd.crosstab(df_top_10['opening_name'], df_top_10['rating_bracket'])
 
-# Perform Chi-Square Test [cite: 12, 37]
 chi2, p, dof, expected = chi2_contingency(contingency_table)
 
 print("Contingency Table Created.")
@@ -50,14 +48,13 @@ else:
 
 print("--- Hypothesis Testing Complete ---\n")
 
-# === 4. EXPLORATORY DATA ANALYSIS (EDA) ===
-# Visualization helps communicate findings [cite: 13, 14]
+# EDA
 plt.figure(figsize=(12, 6))
 sns.countplot(data=df_top_10, x='opening_name', hue='winner')
 plt.xticks(rotation=45, ha='right')
 plt.title('Win/Loss Distribution for Top 10 Openings')
 plt.tight_layout()
 
-# This command pauses the script; it must be last
+# Display the Graph
 print("Displaying Graph... (Close the window to end the script)")
 plt.show()
